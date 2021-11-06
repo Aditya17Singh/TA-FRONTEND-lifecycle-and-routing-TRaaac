@@ -1,10 +1,4 @@
 function RandomUser(props) {
-  let fullName =
-    props.user.name.title +
-    " " +
-    props.user.name.first +
-    " " +
-    props.user.name.last;
   return (
     <>
       <div className="card container">
@@ -16,10 +10,7 @@ function RandomUser(props) {
           />
         </div>
         <div>
-          {console.log(props)}
-          {/* <h2>My Name is {fullName}</h2> */}
           <h4>{props.getValue}</h4>
-          <h4>{props.display}</h4>
         </div>
         <ul className="flex">
           <li>
