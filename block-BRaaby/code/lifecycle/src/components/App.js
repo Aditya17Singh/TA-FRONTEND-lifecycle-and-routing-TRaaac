@@ -6,7 +6,6 @@ class App extends React.Component {
     super(props);
     this.state = {
       data: null,
-      text: "",
       user: "",
       value: "",
       display: "",
