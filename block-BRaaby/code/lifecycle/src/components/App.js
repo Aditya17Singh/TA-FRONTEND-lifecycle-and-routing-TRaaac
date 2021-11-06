@@ -1,5 +1,5 @@
 import React from "react";
-import Lifecycle from "./Lifecycle";
+import RandomUser from "./RandomUser";
 
 class App extends React.Component {
   constructor(props) {
@@ -7,6 +7,9 @@ class App extends React.Component {
     this.state = {
       data: null,
       text: "",
+      user: "",
+      value: "",
+      display: "",
     };
   }
   componentDidMount() {
@@ -14,21 +17,78 @@ class App extends React.Component {
       .then((res) => res.json())
       .then((data) =>
         this.setState({
-          data: data,
-          text: data.results[0].name.title + " " + data.results[0].name.first,
+          data: data.results[0],
         })
       );
   }
+  getRandom = () => {
+    fetch("https://randomuser.me/api/")
+      .then((res) => res.json())
+      .then((data) =>
+        this.setState({
+          data: data.results[0],
+        })
+      );
+  };
+  randomUser = (event, text) => {
+    var fullName =
+      this.state.data.name.title +
+      " " +
+      this.state.data.name.first +
+      " " +
+      this.state.data.name.last;
+    switch (text) {
+      case "user":
+        this.setState({
+          value: fullName,
+        });
+        break;
+      case "email":
+        this.setState({
+          value: this.state.data.email,
+        });
+        break;
+      case "age":
+        this.setState({
+          value: this.state.data.dob.age,
+        });
+        break;
+      case "address":
+        this.setState({
+          value: this.state.data.location.street.name,
+        });
+        break;
+      case "phone":
+        this.setState({
+          value: this.state.data.phone,
+        });
+        break;
+      case "password":
+        this.setState({
+          value: this.state.data.cell,
+        });
+        break;
+      default:
+        break;
+    }
+    this.setState({ display: text });
+  };
   render() {
-    let user = this.state.data.results[0];
-    
-    return (
-      <>
-        {/* {this.state.data.results.map((elm) => {
-            return <li>{elm.gender}</li>;
-          })} */}
-      </>
-    );
+    if (!this.state.data) {
+      return <h1>Loading...</h1>;
+    } else {
+      return (
+        <>
+          <RandomUser
+            user={this.state.data}
+            getRandom={this.getRandom}
+            randomUser={this.randomUser}
+            getValue={this.state.value}
+            getDisplay={this.state.display}
+          />
+        </>
+      );
+    }
   }
 }
 export default App;
